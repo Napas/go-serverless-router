@@ -3,21 +3,21 @@
 
 [[projects]]
   name = "github.com/aws/aws-lambda-go"
-  packages = [
-    "events",
-    "lambda",
-    "lambda/handlertrace",
-    "lambda/messages",
-    "lambdacontext"
-  ]
-  revision = "08d251dc58f204411d79012fd6f1beefb7107fea"
-  version = "v1.10.0"
+  packages = ["events"]
+  revision = "4c210d7623089d36b6bb6febf5a5e553bf73fbfb"
+  version = "v1.11.1"
 
 [[projects]]
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
   revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
   version = "v1.1.1"
+
+[[projects]]
+  name = "github.com/joomcode/errorx"
+  packages = ["."]
+  revision = "fdac6a0426b2762ed554e68c3d4cac8622aaadf3"
+  version = "0.8.0"
 
 [[projects]]
   name = "github.com/pmezard/go-difflib"
@@ -43,6 +43,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "b4ad85d64fdfb2eba127601204f88e5e4043938ff94e4db4a1cb62c1213fdea3"
+  inputs-digest = "0f0c20968c6f58f8eccbddf6c36c7060fbee14b7fbb82819246a4299ff0ddb55"
   solver-name = "gps-cdcl"
   solver-version = 1

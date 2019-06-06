@@ -1,37 +1,60 @@
-package goserverlessrouter
+package go_serverless_router
 
 import (
 	"context"
-	"net/http"
+	"encoding/json"
 
-	"github.com/aws/aws-lambda-go/events"
+	"github.com/Napas/go-serverless-router/routes"
+
+	"github.com/joomcode/errorx"
 )
 
-type Router interface {
-	Handler
-	AddRoute(route Route)
+var (
+	RouterErrors = errorx.NewNamespace("router")
+
+	RouterRouteNotFoundError = RouterErrors.NewType("route_not_found")
+)
+
+type Router struct {
+	routes []routes.Route
+	logger Logger
 }
 
-type router struct {
-	routes []Route
+func New() *Router {
+	return &Router{logger: &NilLogger{}}
 }
 
-func NewRouter() Router {
-	return &router{}
+func NewWithLogger(logger Logger) *Router {
+	return &Router{logger: logger}
 }
 
-func (r *router) AddRoute(route Route) {
-	r.routes = append(r.routes, route)
+func (router *Router) AddRoute(route routes.Route) *Router {
+	router.routes = append(router.routes, route)
+
+	return router
 }
 
-func (r *router) Handle(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	for _, route := range r.routes {
-		if route.Matches(request) {
-			return route.GetHandler()(ctx, request)
+func (router *Router) Handle(ctx context.Context, event map[string]interface{}) (interface{}, error) {
+	encoded, _ := json.Marshal(event)
+	router.logger.Printf("Got event: %s", encoded)
+
+	for _, route := range router.routes {
+		if route.Matches(event) {
+			resp, err := route.Handle(ctx, event)
+
+			if route.HasResponse() {
+				return resp, err
+			}
+
+			return err, err
 		}
 	}
 
-	return events.APIGatewayProxyResponse{
-		StatusCode: http.StatusNotFound,
-	}, nil
+	router.logger.Println("Route was not found")
+
+	err := RouterRouteNotFoundError.New("Route not found")
+
+	// not sure at this point if AWS Lambda is expecting error as a first argument
+	// or as a second.
+	return err, err
 }

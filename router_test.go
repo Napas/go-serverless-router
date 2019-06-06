@@ -1,77 +1,144 @@
-package goserverlessrouter_test
+package go_serverless_router_test
 
 import (
 	"context"
 	"errors"
-	"net/http"
 	"testing"
 
-	"github.com/stretchr/testify/mock"
+	"github.com/joomcode/errorx"
 
-	"github.com/Napas/go-serverless-router"
-	"github.com/aws/aws-lambda-go/events"
+	goserverlessrouter "github.com/Napas/go-serverless-router"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
-type handlerMock struct {
+type routeMock struct {
 	mock.Mock
 }
 
-func (handler *handlerMock) Handle(
-	ctx context.Context,
-	request events.APIGatewayProxyRequest,
-) (events.APIGatewayProxyResponse, error) {
-	args := handler.Called(ctx, request)
+func (route *routeMock) Matches(event map[string]interface{}) bool {
+	args := route.Called(event)
 
-	return args.Get(0).(events.APIGatewayProxyResponse), args.Error(1)
+	return args.Bool(0)
 }
 
-func TestRouter_Handle(t *testing.T) {
-	t.Run("Return response with 404 if no routes matches", func(t *testing.T) {
-		router := goserverlessrouter.NewRouter()
-		response, _ := router.Handle(context.TODO(), events.APIGatewayProxyRequest{})
+func (route *routeMock) Handle(ctx context.Context, event map[string]interface{}) (interface{}, error) {
+	args := route.Called(ctx, event)
 
-		assert.Equal(t, http.StatusNotFound, response.StatusCode)
+	return args.Get(0), args.Error(1)
+}
+
+func (route *routeMock) HasResponse() bool {
+	args := route.Called()
+
+	return args.Bool(0)
+}
+
+func Test_Router(t *testing.T) {
+	t.Run("Returning an error if route is not found", func(t *testing.T) {
+		router := goserverlessrouter.New()
+		err1, err2 := router.Handle(context.TODO(), map[string]interface{}{})
+
+		assert.Error(t, err1.(error))
+		assert.Error(t, err2)
+
+		assert.True(t, err1.(*errorx.Error).IsOfType(goserverlessrouter.RouterRouteNotFoundError))
+		assert.True(t, err2.(*errorx.Error).IsOfType(goserverlessrouter.RouterRouteNotFoundError))
 	})
 
-	t.Run("Returns response from the matched route handler", func(t *testing.T) {
+	t.Run("Calls Handle function on matching route", func(t *testing.T) {
 		ctx := context.TODO()
-		request := events.APIGatewayProxyRequest{
-			HTTPMethod: http.MethodGet,
-			Path:       "/",
-		}
-		expectedResponse := events.APIGatewayProxyResponse{
-			StatusCode: http.StatusNoContent,
-		}
+		event := map[string]interface{}{}
 
-		handlerMock := new(handlerMock)
-		handlerMock.On("Handle", ctx, request).Return(expectedResponse, nil)
+		route1 := &routeMock{}
+		route1.
+			On("Matches", event).
+			Once().
+			Return(false)
 
-		route, _ := goserverlessrouter.NewRoute(http.MethodGet, "/", handlerMock.Handle)
-		router := goserverlessrouter.NewRouter()
-		router.AddRoute(route)
-		response, err := router.Handle(ctx, request)
+		route2 := &routeMock{}
+		route2.
+			On("Matches", event).
+			Once().
+			Return(true)
 
-		assert.Nil(t, err)
-		assert.Equal(t, expectedResponse, response)
+		route2.
+			On("Handle", ctx, event).
+			Once().
+			Return(nil, nil)
+
+		route2.
+			On("HasResponse").
+			Once().
+			Return(true)
+
+		router := goserverlessrouter.New()
+		router.
+			AddRoute(route1).
+			AddRoute(route2)
+
+		router.Handle(ctx, event)
+
+		route1.AssertExpectations(t)
+		route2.AssertExpectations(t)
 	})
 
-	t.Run("Returns error from the matched route handler", func(t *testing.T) {
-		ctx := context.TODO()
-		request := events.APIGatewayProxyRequest{
-			HTTPMethod: http.MethodGet,
-			Path:       "/",
-		}
-		expectedErr := errors.New("expected error from the handler")
+	t.Run("Returns response and error if HasResponse returns true", func(t *testing.T) {
+		expectedResponse := make(map[string]interface{})
+		expectedResponse["Body"] = "response"
 
-		handlerMock := new(handlerMock)
-		handlerMock.On("Handle", ctx, request).Return(events.APIGatewayProxyResponse{}, expectedErr)
+		expectedError := errors.New("error")
 
-		route, _ := goserverlessrouter.NewRoute(http.MethodGet, "/", handlerMock.Handle)
-		router := goserverlessrouter.NewRouter()
+		route := &routeMock{}
+		route.
+			On("Matches", mock.Anything).
+			Return(true)
+
+		route.
+			On("Handle", mock.Anything, mock.Anything).
+			Return(expectedResponse, expectedError)
+
+		route.
+			On("HasResponse").
+			Return(true)
+
+		router := goserverlessrouter.New()
 		router.AddRoute(route)
-		_, err := router.Handle(ctx, request)
 
-		assert.Equal(t, expectedErr, err)
+		resp, err := router.Handle(context.TODO(), map[string]interface{}{})
+
+		assert.Error(t, err)
+		assert.Equal(t, expectedError, err)
+		assert.Equal(t, expectedResponse, resp)
+	})
+
+	t.Run("Returns error af both return arguments if HasResponse is false", func(t *testing.T) {
+		response := make(map[string]interface{})
+		response["Body"] = "response"
+
+		expectedError := errors.New("error")
+
+		route := &routeMock{}
+		route.
+			On("Matches", mock.Anything).
+			Return(true)
+
+		route.
+			On("Handle", mock.Anything, mock.Anything).
+			Return(response, expectedError)
+
+		route.
+			On("HasResponse").
+			Return(false)
+
+		router := goserverlessrouter.New()
+		router.AddRoute(route)
+
+		resp, err := router.Handle(context.TODO(), map[string]interface{}{})
+
+		assert.Error(t, err)
+		assert.Equal(t, expectedError, err)
+		assert.Error(t, resp.(error))
+		assert.Equal(t, expectedError, resp.(error))
 	})
 }
