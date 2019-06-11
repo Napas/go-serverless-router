@@ -9,6 +9,7 @@ import (
 type GeneralHandlerFunc func(ctx context.Context, request interface{}) (interface{}, error)
 type ApiGatewayHandlerFunc func(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error)
 type DynamoDbHandlerFunc func(ctx context.Context, request events.DynamoDBEvent)
+type SqsHandlerFunc func(ctx context.Context, request events.SQSEvent) error
 
 type GeneralHandler interface {
 	Handle(ctx context.Context, request interface{}) (interface{}, error)
@@ -20,4 +21,8 @@ type ApiGatewayHandler interface {
 
 type DynamoDbHandler interface {
 	Handle(ctx context.Context, request events.DynamoDBEvent)
+}
+
+type SqsHandler interface {
+	Handle(ctx context.Context, request events.SQSEvent)
 }

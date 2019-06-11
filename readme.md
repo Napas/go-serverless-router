@@ -66,6 +66,22 @@ func main() {
 	}
 
 	r.AddRoute(dynamodbEventRoute)
+	
+	// Will match events for the arn:aws:sqs:us-east-2:123456789012:my-queue queue.
+	sqsEventRoute, err := routes.NewSqsRoute(
+		"^arn:aws:sqs:us-east-2:123456789012:my-queue$",
+		func(ctx context.Context, request events.SQSEvent) error {
+		    // do something
+		    
+		    return nil
+		},
+	)
+	
+	if err != nil {
+		panic(err)
+	}
+	
+	r.AddRoute(sqsEventRoute)
 
 	// Start lambda with router as handler
 	lambda.Start(r.Handle)
