@@ -12,6 +12,7 @@ or if using [dep](https://github.com/golang/dep):
 ## Supported Events
 * APIGatewayProxyRequest
 * DynamoDBEvent
+* SQSEvent
 
 Feel free to implement other if needed
 
