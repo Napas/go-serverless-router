@@ -11,6 +11,8 @@ import (
 )
 
 func Test_SqsRoute(t *testing.T) {
+	t.Parallel()
+
 	nilHandler := func(_ context.Context, _ events.SQSEvent) error {
 		return nil
 	}

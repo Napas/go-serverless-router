@@ -14,6 +14,8 @@ import (
 )
 
 func Test_ApiGatewayRoute(t *testing.T) {
+	t.Parallel()
+
 	voidHandler := func(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 		return events.APIGatewayProxyResponse{}, nil
 	}

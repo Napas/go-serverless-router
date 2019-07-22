@@ -50,6 +50,20 @@ func main() {
 	}
 
 	r.AddRoute(httpRoute)
+	
+	// CORS route for the /path/123
+	corsRoute, err := routes.NewCorsApiGatewayRoute(
+		"\\/path\\/\\d+", 
+		"*", 
+		[]string{"GET"}, 
+		[]string{"Accept", "Content-Type"},
+	)
+	
+	if err != nil {
+		panic(err)
+    }
+    
+	r.AddRoute(corsRoute)
 
 	// Will match events from account id 111111 and table called table-name
 	dynamodbEventRoute, err := routes.NewDynamoDbRoute(

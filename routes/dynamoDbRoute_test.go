@@ -14,6 +14,8 @@ import (
 )
 
 func Test_DynamoDbRoute(t *testing.T) {
+	t.Parallel()
+
 	voidHandler := func(ctx context.Context, request events.DynamoDBEvent) {}
 
 	t.Run("NewDynamoDbRoute", func(t *testing.T) {

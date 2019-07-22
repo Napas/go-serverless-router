@@ -35,6 +35,8 @@ func (route *routeMock) HasResponse() bool {
 }
 
 func Test_Router(t *testing.T) {
+	t.Parallel()
+
 	t.Run("Returning an error if route is not found", func(t *testing.T) {
 		router := goserverlessrouter.New()
 		err1, err2 := router.Handle(context.TODO(), map[string]interface{}{})
