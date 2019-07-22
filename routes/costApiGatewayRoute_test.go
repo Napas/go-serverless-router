@@ -84,5 +84,20 @@ func Test_CorsApiGatewayRoute(t *testing.T) {
 
 			assert.Equal(t, "Accept, Content-Type", apiResp.Headers["Access-Control-Allow-Headers"])
 		})
+
+		t.Run("Sets response code to 200", func(t *testing.T) {
+			handler, err := routes.NewCorsApiGatewayRoute("/*./", "", nil, nil)
+
+			assert.Nil(t, err)
+
+			resp, err := handler.Handle(context.TODO(), map[string]interface{}{"path": "/"})
+
+			assert.Nil(t, err)
+			assert.IsType(t, resp, events.APIGatewayProxyResponse{})
+
+			apiResp := resp.(events.APIGatewayProxyResponse)
+
+			assert.Equal(t, 200, apiResp.StatusCode)
+		})
 	})
 }

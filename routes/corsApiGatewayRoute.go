@@ -49,6 +49,7 @@ func (route *corsApiGatewayRoute) handler(
 			"Access-Control-Allow-Methods": route.methods,
 			"Access-Control-Allow-Headers": route.headers,
 		},
+		StatusCode: http.StatusOK,
 	}, nil
 }
 
