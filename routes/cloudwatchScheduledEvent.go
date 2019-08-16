@@ -3,8 +3,10 @@ package routes
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/aws/aws-lambda-go/events"
 	"regexp"
+	"strings"
 )
 
 const (
@@ -84,6 +86,16 @@ func (route *CloudwatchScheduledEventRoute) Handle(ctx context.Context, event ma
 
 func (*CloudwatchScheduledEventRoute) HasResponse() bool {
 	return false
+}
+
+func (route *CloudwatchScheduledEventRoute) String() string {
+	resources := []string{}
+
+	for _, resource := range route.resourceArns {
+		resources = append(resources, resource.String())
+	}
+
+	return fmt.Sprintf("CloudWatch scheduled event for resources: %s", strings.Join(resources, ", "))
 }
 
 type resourceArnsRegexps []*regexp.Regexp

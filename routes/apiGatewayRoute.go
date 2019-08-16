@@ -3,6 +3,7 @@ package routes
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"regexp"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -63,4 +64,8 @@ func (route *ApiGatewayRoute) Handle(ctx context.Context, event map[string]inter
 
 func (*ApiGatewayRoute) HasResponse() bool {
 	return true
+}
+
+func (route *ApiGatewayRoute) String() string {
+	return fmt.Sprintf("API Gateway route: %s %s", route.httpMethod, route.path.String())
 }
