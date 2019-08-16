@@ -3,6 +3,7 @@ package routes
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"regexp"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -91,4 +92,8 @@ func (route *DynamoDbRoute) Handle(ctx context.Context, event map[string]interfa
 
 func (*DynamoDbRoute) HasResponse() bool {
 	return false
+}
+
+func (route *DynamoDbRoute) String() string {
+	return fmt.Sprintf("Dynamo db event for %s", route.eventSourceArn.String())
 }

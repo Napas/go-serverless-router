@@ -3,6 +3,7 @@ package routes
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/aws/aws-lambda-go/events"
 	"regexp"
 )
@@ -79,4 +80,8 @@ func (route *SqsRoute) Handle(ctx context.Context, event map[string]interface{})
 
 func (*SqsRoute) HasResponse() bool {
 	return false
+}
+
+func (route *SqsRoute) String() string {
+	return fmt.Sprintf("SQS event %s", route.eventSourceArn.String())
 }
