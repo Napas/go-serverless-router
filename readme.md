@@ -97,6 +97,22 @@ func main() {
 	}
 	
 	r.AddRoute(sqsEventRoute)
+	
+	// Will match scheduled cloudwatch event with arn:aws:events:us-east-1:123456789012:rule/my-scheduled-rule
+	cloudwatchScheduledEventRoute, err := routes.NewCloudwatchScheduledEventRoute(
+		[]string{"^arn:aws:events:us-east-1:123456789012:rule\\/my-scheduled-rule$"},
+		func(ctx context.Context, request events.CloudWatchEvent) error {
+            // do something
+            
+            return nil
+		},
+	)
+	
+	if err != nil {
+		panic(err)
+	}
+	
+	r.AddRoute(cloudwatchScheduledEventRoute)
 
 	// Start lambda with router as handler
 	lambda.Start(r.Handle)
