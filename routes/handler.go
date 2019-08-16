@@ -10,6 +10,7 @@ type GeneralHandlerFunc func(ctx context.Context, request interface{}) (interfac
 type ApiGatewayHandlerFunc func(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error)
 type DynamoDbHandlerFunc func(ctx context.Context, request events.DynamoDBEvent)
 type SqsHandlerFunc func(ctx context.Context, request events.SQSEvent) error
+type CloudWatchScheduledEventHandlerFunc func(ctx context.Context, request events.CloudWatchEvent) error
 
 type GeneralHandler interface {
 	Handle(ctx context.Context, request interface{}) (interface{}, error)
@@ -25,4 +26,8 @@ type DynamoDbHandler interface {
 
 type SqsHandler interface {
 	Handle(ctx context.Context, request events.SQSEvent)
+}
+
+type CloudWatchScheduledEventHandler interface {
+	Handle(ctx context.Context, request events.CloudWatchEvent) error
 }

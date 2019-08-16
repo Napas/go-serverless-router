@@ -2,47 +2,74 @@
 
 
 [[projects]]
+  digest = "1:ec49ab6d44f187df8a1e2e897aef3561a77b2f012e56d0cc42f6a9bdfb9857f9"
   name = "github.com/aws/aws-lambda-go"
   packages = ["events"]
-  revision = "4c210d7623089d36b6bb6febf5a5e553bf73fbfb"
-  version = "v1.11.1"
+  pruneopts = "UT"
+  revision = "f7dba3f79cca0ce775c07c38db419e0da8d7ca64"
+  version = "v1.12.1"
 
 [[projects]]
+  digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
+  pruneopts = "UT"
   revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
   version = "v1.1.1"
 
 [[projects]]
+  digest = "1:d1a5ea6ec2f2592b23d53c13fd1c97cc033f33172743f964b8c1e321cbf816f8"
   name = "github.com/joomcode/errorx"
   packages = ["."]
+  pruneopts = "UT"
   revision = "fdac6a0426b2762ed554e68c3d4cac8622aaadf3"
   version = "0.8.0"
 
 [[projects]]
+  digest = "1:0028cb19b2e4c3112225cd871870f2d9cf49b9b4276531f03438a88e94be86fe"
   name = "github.com/pmezard/go-difflib"
   packages = ["difflib"]
+  pruneopts = "UT"
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:ac83cf90d08b63ad5f7e020ef480d319ae890c208f8524622a2f3136e2686b02"
   name = "github.com/stretchr/objx"
   packages = ["."]
+  pruneopts = "UT"
   revision = "477a77ecc69700c7cdeb1fa9e129548e1c1c393c"
   version = "v0.1.1"
 
 [[projects]]
+  digest = "1:86562a966508283e1ce3f6de0be5a7d813070271d6e14dc5af3cd5863fee03a4"
   name = "github.com/stretchr/testify"
   packages = [
     "assert",
-    "mock"
+    "mock",
+    "require",
   ]
-  revision = "ffdc059bfe9ce6a4e144ba849dbedead332c6053"
-  version = "v1.3.0"
+  pruneopts = "UT"
+  revision = "221dbe5ed46703ee255b1da0dec05086f5035f62"
+  version = "v1.4.0"
+
+[[projects]]
+  digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
+  name = "gopkg.in/yaml.v2"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
+  version = "v2.2.2"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "0f0c20968c6f58f8eccbddf6c36c7060fbee14b7fbb82819246a4299ff0ddb55"
+  input-imports = [
+    "github.com/aws/aws-lambda-go/events",
+    "github.com/joomcode/errorx",
+    "github.com/stretchr/testify/assert",
+    "github.com/stretchr/testify/mock",
+    "github.com/stretchr/testify/require",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
