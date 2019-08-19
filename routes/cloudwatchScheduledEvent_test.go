@@ -95,7 +95,7 @@ func TestScheduledEventRoute(t *testing.T) {
 			require.Nil(t, err)
 			assert.True(t, route.Matches(map[string]interface{}{
 				"detail-type": "Scheduled Event",
-				"resources":   []string{"arn:1"},
+				"resources":   []interface{}{"arn:1"},
 			}))
 		})
 	})
