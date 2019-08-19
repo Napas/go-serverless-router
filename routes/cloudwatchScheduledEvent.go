@@ -45,7 +45,7 @@ func (route *CloudwatchScheduledEventRoute) Matches(event map[string]interface{}
 		return false
 	}
 
-	resourceArns, ok := event["resources"].([]string)
+	resourceArns, ok := event["resources"].([]interface{})
 
 	if !ok {
 		return false
@@ -56,7 +56,9 @@ func (route *CloudwatchScheduledEventRoute) Matches(event map[string]interface{}
 	}
 
 	for _, resourceArn := range resourceArns {
-		if !route.resourceArns.has(resourceArn) {
+		resourceArnStr, ok := resourceArn.(string)
+
+		if !ok || !route.resourceArns.has(resourceArnStr) {
 			return false
 		}
 	}
