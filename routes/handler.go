@@ -25,7 +25,7 @@ type DynamoDbHandler interface {
 }
 
 type SqsHandler interface {
-	Handle(ctx context.Context, request events.SQSEvent)
+	Handle(ctx context.Context, request events.SQSEvent) error
 }
 
 type CloudWatchScheduledEventHandler interface {
