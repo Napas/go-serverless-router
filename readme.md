@@ -16,6 +16,12 @@ or if using [dep](https://github.com/golang/dep):
 
 Feel free to implement other if needed
 
+## Bridges for the local development
+Can be used with [LocalStack](https://github.com/localstack/localstack) for the local development
+ 
+### Implemented bridges
+* SQS
+
 ## Usage
 ```go
 package main
@@ -24,11 +30,18 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
 
 	router "github.com/Napas/go-serverless-router"
 	"github.com/Napas/go-serverless-router/routes"
+	"github.com/Napas/go-serverless-router/bridges"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go/service/sqs/sqsiface"
+)
+
+const (
+	envDev = "DEV"
 )
 
 func main() {
@@ -97,6 +110,25 @@ func main() {
 	}
 	
 	r.AddRoute(sqsEventRoute)
+	
+	if os.Getenv("ENVIRONMENT") == envDev {
+		// Local SQS client
+		var sqsClient sqsiface.SQSAPI
+		
+		// This will consume messages from the queue and pass them to the router.
+		// Should only be used for the local development
+		sqsBridge := bridges.NewSqsBridge(
+			r, 
+			"http://localhost:3000/queue", 
+			"arn:aws:sqs:us-east-2:123456789012:my-queue",
+			sqsClient,
+			"us-east-2",
+			nil,
+			)
+		
+		ctx := context.Background()
+		sqsBridge.Run(ctx)
+	}
 	
 	// Will match scheduled cloudwatch event with arn:aws:events:us-east-1:123456789012:rule/my-scheduled-rule
 	cloudwatchScheduledEventRoute, err := routes.NewCloudwatchScheduledEventRoute(

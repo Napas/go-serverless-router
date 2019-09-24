@@ -15,26 +15,31 @@ var (
 	RouterRouteNotFoundError = RouterErrors.NewType("route_not_found")
 )
 
-type Router struct {
+type Router interface {
+	AddRoute(route routes.Route) Router
+	Handle(ctx context.Context, event map[string]interface{}) (interface{}, error)
+}
+
+type router struct {
 	routes []routes.Route
 	logger Logger
 }
 
-func New() *Router {
-	return &Router{logger: &NilLogger{}}
+func New() Router {
+	return &router{logger: &NilLogger{}}
 }
 
-func NewWithLogger(logger Logger) *Router {
-	return &Router{logger: logger}
+func NewWithLogger(logger Logger) Router {
+	return &router{logger: logger}
 }
 
-func (router *Router) AddRoute(route routes.Route) *Router {
+func (router *router) AddRoute(route routes.Route) Router {
 	router.routes = append(router.routes, route)
 
 	return router
 }
 
-func (router *Router) Handle(ctx context.Context, event map[string]interface{}) (interface{}, error) {
+func (router *router) Handle(ctx context.Context, event map[string]interface{}) (interface{}, error) {
 	encoded, _ := json.Marshal(event)
 	router.logger.Printf("Got event: %s", encoded)
 
