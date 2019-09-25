@@ -1,4 +1,4 @@
-package go_serverless_router
+package routing
 
 type Logger interface {
 	Print(...interface{})

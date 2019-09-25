@@ -3,7 +3,7 @@ package bridges
 import (
 	"context"
 	"errors"
-	router "github.com/Napas/go-serverless-router"
+	routing "github.com/Napas/go-serverless-router"
 	"github.com/Napas/go-serverless-router/routes"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/request"
@@ -30,7 +30,7 @@ func Test_sqsBridge(t *testing.T) {
 		On("Handle", mock.Anything, mock.Anything).
 		Return(nil, nil)
 
-	t.Run("Passes SQS messages to the router", func(t *testing.T) {
+	t.Run("Passes SQS messages to the routing", func(t *testing.T) {
 		t.Parallel()
 
 		ctx := context.Background()
@@ -162,7 +162,7 @@ func Test_sqsBridge(t *testing.T) {
 
 type loggerMock struct {
 	mock.Mock
-	router.Logger
+	routing.Logger
 }
 
 func (m *loggerMock) Printf(val string, args ...interface{}) {
@@ -196,7 +196,7 @@ type routerMock struct {
 	mock.Mock
 }
 
-func (m *routerMock) AddRoute(route routes.Route) router.Router {
+func (m *routerMock) AddRoute(route routes.Route) routing.Router {
 	m.Called(route)
 
 	return m
