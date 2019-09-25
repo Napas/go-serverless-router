@@ -1,4 +1,4 @@
-package go_serverless_router_test
+package routing_test
 
 import (
 	"context"

@@ -32,7 +32,7 @@ import (
 	"net/http"
 	"os"
 
-	router "github.com/Napas/go-serverless-router"
+	routing "github.com/Napas/go-serverless-router"
 	"github.com/Napas/go-serverless-router/routes"
 	"github.com/Napas/go-serverless-router/bridges"
 	"github.com/aws/aws-lambda-go/events"
@@ -45,7 +45,7 @@ const (
 )
 
 func main() {
-	r := router.New()
+	r := routing.New()
 
 	// Will match GET /path/123
 	httpRoute, err := routes.NewApiGatewayRoute(

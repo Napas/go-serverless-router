@@ -2,7 +2,7 @@ package bridges
 
 import (
 	"context"
-	router "github.com/Napas/go-serverless-router"
+	routing "github.com/Napas/go-serverless-router"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/aws/aws-sdk-go/service/sqs/sqsiface"
@@ -10,24 +10,24 @@ import (
 )
 
 type sqsBridge struct {
-	router    router.Router
+	router    routing.Router
 	queueUrl  string
 	targetArn string
 	sqs       sqsiface.SQSAPI
 	awsRegion string
-	logger    router.Logger
+	logger    routing.Logger
 }
 
 func NewSqsBridge(
-	r router.Router,
+	r routing.Router,
 	queueUrl string,
 	targetArn string,
 	sqs sqsiface.SQSAPI,
 	awsRegion string,
-	logger router.Logger,
+	logger routing.Logger,
 ) Bridge {
 	if logger == nil {
-		logger = &router.NilLogger{}
+		logger = &routing.NilLogger{}
 	}
 
 	return &sqsBridge{
@@ -40,7 +40,7 @@ func NewSqsBridge(
 	}
 }
 
-// Run fetches messages from SQS and passes them to the router.
+// Run fetches messages from SQS and passes them to the routing.
 // It's intended to be used for local development environments only.
 func (bridge *sqsBridge) Run(ctx context.Context) {
 	go func(ctx context.Context) {
@@ -82,7 +82,7 @@ func (bridge *sqsBridge) receiveMessage(ctx context.Context) error {
 	}
 
 	bridge.logger.Printf(
-		"Received %d messages from the %s queue, passing them to the router",
+		"Received %d messages from the %s queue, passing them to the routing",
 		messagesCount,
 		bridge.queueUrl,
 	)
