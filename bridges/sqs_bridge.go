@@ -91,16 +91,16 @@ func (bridge *sqsBridge) receiveMessage(ctx context.Context) error {
 
 	for i, message := range output.Messages {
 		records[i] = map[string]interface{}{
-			"MessageId":              message.MessageId,
-			"ReceiptHandle":          message.ReceiptHandle,
-			"Body":                   message.Body,
-			"Md5OfBody":              message.MD5OfBody,
-			"Md5OfMessageAttributes": message.MD5OfMessageAttributes,
-			"Attributes":             message.Attributes,
-			"MessageAttributes":      message.MessageAttributes,
-			"EventSourceARN":         bridge.targetArn,
-			"EventSource":            bridge.queueUrl,
-			"AWSRegion":              bridge.awsRegion,
+			"messageId":              message.MessageId,
+			"receiptHandle":          message.ReceiptHandle,
+			"body":                   message.Body,
+			"md5OfBody":              message.MD5OfBody,
+			"md5OfMessageAttributes": message.MD5OfMessageAttributes,
+			"attributes":             message.Attributes,
+			"messageAttributes":      message.MessageAttributes,
+			"eventSourceARN":         bridge.targetArn,
+			"eventSource":            bridge.queueUrl,
+			"awsRegion":              bridge.awsRegion,
 		}
 	}
 

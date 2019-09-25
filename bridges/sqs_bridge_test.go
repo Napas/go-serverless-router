@@ -88,22 +88,22 @@ func Test_sqsBridge(t *testing.T) {
 				map[string]interface{}{
 					"Records": []map[string]interface{}{
 						{
-							"MessageId":              aws.String("messageId"),
-							"ReceiptHandle":          aws.String("receiptHandle"),
-							"Body":                   aws.String("body"),
-							"Md5OfBody":              aws.String("md5OfBody"),
-							"Md5OfMessageAttributes": aws.String("md5OfMessageAttributes"),
-							"Attributes": map[string]*string{
+							"messageId":              aws.String("messageId"),
+							"receiptHandle":          aws.String("receiptHandle"),
+							"body":                   aws.String("body"),
+							"md5OfBody":              aws.String("md5OfBody"),
+							"md5OfMessageAttributes": aws.String("md5OfMessageAttributes"),
+							"attributes": map[string]*string{
 								"attribute": aws.String("value"),
 							},
-							"MessageAttributes": map[string]*sqs.MessageAttributeValue{
+							"messageAttributes": map[string]*sqs.MessageAttributeValue{
 								"attribute": {
 									StringValue: aws.String("value"),
 								},
 							},
-							"EventSourceARN": sqsTargetArn,
-							"EventSource":    sqsQueueUrl,
-							"AWSRegion":      awsRegionEuWest1,
+							"eventSourceARN": sqsTargetArn,
+							"eventSource":    sqsQueueUrl,
+							"awsRegion":      awsRegionEuWest1,
 						},
 					},
 				}).

@@ -10,12 +10,49 @@
   version = "v1.12.1"
 
 [[projects]]
+  digest = "1:4d3aae731fae615abeb6071e7e7f1ec65f0af53398ad63bd79097adb7c375131"
+  name = "github.com/aws/aws-sdk-go"
+  packages = [
+    "aws",
+    "aws/awserr",
+    "aws/awsutil",
+    "aws/client",
+    "aws/client/metadata",
+    "aws/credentials",
+    "aws/endpoints",
+    "aws/request",
+    "aws/signer/v4",
+    "internal/ini",
+    "internal/sdkio",
+    "internal/sdkmath",
+    "internal/sdkrand",
+    "internal/shareddefaults",
+    "private/protocol",
+    "private/protocol/query",
+    "private/protocol/query/queryutil",
+    "private/protocol/rest",
+    "private/protocol/xml/xmlutil",
+    "service/sqs",
+    "service/sqs/sqsiface",
+  ]
+  pruneopts = "UT"
+  revision = "b7eee50b85eaaf44dc40b5676d7035d6909c042e"
+  version = "v1.24.5"
+
+[[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
   pruneopts = "UT"
   revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
   version = "v1.1.1"
+
+[[projects]]
+  digest = "1:bb81097a5b62634f3e9fec1014657855610c82d19b9a40c17612e32651e35dca"
+  name = "github.com/jmespath/go-jmespath"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "c2b33e84"
 
 [[projects]]
   digest = "1:d1a5ea6ec2f2592b23d53c13fd1c97cc033f33172743f964b8c1e321cbf816f8"
@@ -66,6 +103,10 @@
   analyzer-version = 1
   input-imports = [
     "github.com/aws/aws-lambda-go/events",
+    "github.com/aws/aws-sdk-go/aws",
+    "github.com/aws/aws-sdk-go/aws/request",
+    "github.com/aws/aws-sdk-go/service/sqs",
+    "github.com/aws/aws-sdk-go/service/sqs/sqsiface",
     "github.com/joomcode/errorx",
     "github.com/stretchr/testify/assert",
     "github.com/stretchr/testify/mock",
