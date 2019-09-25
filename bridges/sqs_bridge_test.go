@@ -86,8 +86,8 @@ func Test_sqsBridge(t *testing.T) {
 					return assert.WithinDuration(t, time.Now().Add(time.Second*30), deadline, time.Second*2)
 				}),
 				map[string]interface{}{
-					"Records": []map[string]interface{}{
-						{
+					"Records": []interface{}{
+						map[string]interface{}{
 							"messageId":              aws.String("messageId"),
 							"receiptHandle":          aws.String("receiptHandle"),
 							"body":                   aws.String("body"),

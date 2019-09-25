@@ -87,7 +87,7 @@ func (bridge *sqsBridge) receiveMessage(ctx context.Context) error {
 		bridge.queueUrl,
 	)
 
-	records := make([]map[string]interface{}, messagesCount)
+	records := make([]interface{}, messagesCount)
 
 	for i, message := range output.Messages {
 		records[i] = map[string]interface{}{
