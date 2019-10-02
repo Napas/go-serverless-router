@@ -2,15 +2,15 @@
 
 
 [[projects]]
-  digest = "1:ec49ab6d44f187df8a1e2e897aef3561a77b2f012e56d0cc42f6a9bdfb9857f9"
+  digest = "1:b6910af4f844c4a5d1a63306dffbc3d1063ad516eac78f3d07c0dda88625e5d0"
   name = "github.com/aws/aws-lambda-go"
   packages = ["events"]
   pruneopts = "UT"
-  revision = "f7dba3f79cca0ce775c07c38db419e0da8d7ca64"
-  version = "v1.12.1"
+  revision = "e5086e5a7e53f7039034fa29008221760b04ff79"
+  version = "v1.13.2"
 
 [[projects]]
-  digest = "1:4d3aae731fae615abeb6071e7e7f1ec65f0af53398ad63bd79097adb7c375131"
+  digest = "1:90016ae909b8a92fd565dc35a78fe113b4d236301c162e9a1d546c00dfe673c8"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -36,8 +36,8 @@
     "service/sqs/sqsiface",
   ]
   pruneopts = "UT"
-  revision = "b7eee50b85eaaf44dc40b5676d7035d6909c042e"
-  version = "v1.24.5"
+  revision = "75175b77ef51932139594fcd2d7b2e278e2a9985"
+  version = "v1.25.3"
 
 [[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
@@ -55,12 +55,12 @@
   revision = "c2b33e84"
 
 [[projects]]
-  digest = "1:d1a5ea6ec2f2592b23d53c13fd1c97cc033f33172743f964b8c1e321cbf816f8"
+  digest = "1:096abfb869a3f8ddf33dc56c167bbac5f9680f555cd9d4ffa96d82d64b53dbe6"
   name = "github.com/joomcode/errorx"
   packages = ["."]
   pruneopts = "UT"
-  revision = "fdac6a0426b2762ed554e68c3d4cac8622aaadf3"
-  version = "0.8.0"
+  revision = "30da670594f39d823904fa86548c5da1b6dfc0d0"
+  version = "v1.0.0"
 
 [[projects]]
   digest = "1:0028cb19b2e4c3112225cd871870f2d9cf49b9b4276531f03438a88e94be86fe"
@@ -91,12 +91,12 @@
   version = "v1.4.0"
 
 [[projects]]
-  digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
+  digest = "1:1033856ca84153217fda9f527e1c02e11b636e28ad2ab19f2ea4a06e4abbe8e1"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   pruneopts = "UT"
-  revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
-  version = "v2.2.2"
+  revision = "bb4e33bf68bf89cad44d386192cbed201f35b241"
+  version = "v2.2.3"
 
 [solve-meta]
   analyzer-name = "dep"
